@@ -47,6 +47,7 @@ const menuItems = [
 
 const Sidebar = () => {
     const { user }: any = useAuth();
+    const navigate = useNavigate();
 
     if (!user) return null;
 
@@ -62,7 +63,7 @@ const Sidebar = () => {
         >
             {/* Topo */}
             <Box>
-                <Box p="4" fontWeight="bold" fontSize="xl">
+                <Box p="4" fontWeight="bold" fontSize="xl" onClick={() => navigate('/system')}>
                     NPW <Text as="span" fontSize="sm" fontWeight="light">System</Text>
                 </Box>
 
