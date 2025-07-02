@@ -108,7 +108,7 @@ async function enviarEmails() {
         to_email: user.email,
         message: 'Olá! Seu novo treinamento está disponível!',
       },
-      'user_public_key'
+      'NldvvQ256tLZBIuVm'
     );
   }
 
