@@ -71,7 +71,7 @@ const Sidebar = () => {
                     {menuItems
                         .filter((item) => {
                             if (item.text === 'Admin') {
-                                return user.admin === 2 || user.admin === 3;
+                                return user.admin_level === 2 || user.admin_level === 3;
                             }
                             return true;
                         })

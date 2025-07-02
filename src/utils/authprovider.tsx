@@ -9,6 +9,9 @@ export function AuthProvider({ children }: any) {
     const location = useLocation();
     const navigate = useNavigate();
 
+    console.log(user);
+    
+
     // Função de verificação
     async function verifyUser() {
         const userData = localStorage.getItem("custom_user");
