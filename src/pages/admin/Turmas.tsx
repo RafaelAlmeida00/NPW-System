@@ -1,5 +1,5 @@
 "use client";
-
+import emailjs from 'emailjs-com';
 import {
   Box,
   Heading,
@@ -92,6 +92,30 @@ export default function TurmasAdmin() {
   const onQrCode = async (id: number) => {
     await generateQr(id);
   }
+
+async function enviarEmails() {
+  const { data, error } = await supabase.from('users').select('email');
+  if (error) {
+    console.error('Erro ao buscar emails', error);
+    return;
+  }
+
+  for (const user of data) {
+    await emailjs.send(
+      'service_w41urid',
+      'template_ewvka4j',
+      {
+        to_email: user.email,
+        message: 'Olá! Seu novo treinamento está disponível!',
+      },
+      'user_public_key'
+    );
+  }
+
+  console.log('E-mails enviados com sucesso!');
+}
+
+
   // Fetch turmas + inscricoes + nome usuarios (via join)
   async function fetchTurmas() {
     setLoading(true);
@@ -244,6 +268,7 @@ export default function TurmasAdmin() {
         duration: 2500,
         isClosable: true,
       });
+      enviarEmails();
       fetchTurmas();
       onClose();
     } catch (error) {
