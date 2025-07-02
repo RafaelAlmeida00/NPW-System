@@ -53,7 +53,7 @@ export default function System() {
         supabase.from("users").select("*").order("created_at", { ascending: false }).limit(5),
       ]);
 
-      const turmasAbertas = turmas.data.filter((t: any) => t.status === "aberta");
+      const turmasAbertas = turmas.data.filter((t: any) => t.status === "Aberta");
 
       setCounts({
         users: userCount || 0,
@@ -67,7 +67,7 @@ export default function System() {
       const { data: turmasComInscricoes }: any = await supabase
         .from("turmas")
         .select("*, treinamentos(*), inscricoes(*, users(*))")
-        .eq("status", "aberta");
+        .eq("status", "Aberta");
 
       if (turmasComInscricoes) setTreinamentosComTurmas(turmasComInscricoes);
 
@@ -119,7 +119,7 @@ export default function System() {
   return (
     <>
       {!isMobileDevice && <Sidebar />}
-      {location.pathname !== "/system" ? (<Box><Outlet /></Box>) :
+      {location.pathname !== "/system" && location.pathname !== "/system/" ? (<Box><Outlet /></Box>) :
 
         <Box p={8} bg={colors.white} minH="100vh" marginLeft={"20vw"}>
           <Heading mb={4}>Dashboard</Heading>
