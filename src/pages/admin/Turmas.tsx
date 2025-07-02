@@ -100,6 +100,8 @@ async function enviarEmails() {
     return;
   }
 
+  console.log('Enviando e-mails para:', data);
+  
   for (const user of data) {
     await emailjs.send(
       'service_w41urid',
