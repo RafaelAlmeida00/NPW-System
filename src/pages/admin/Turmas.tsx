@@ -107,7 +107,7 @@ async function enviarEmails() {
       'service_w41urid',
       'template_ewvka4j',
       {
-        to_email: user.email,
+        email: user.email,
         message: 'Olá! Seu novo treinamento está disponível!',
       },
       'NldvvQ256tLZBIuVm'
