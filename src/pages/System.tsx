@@ -19,11 +19,12 @@ import { useEffect, useState } from "react";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 import Sidebar from "../components/app/Drawer";
 import { colors } from "../utils/colors";
-import { Outlet } from "react-router";
+import { Outlet, useLocation } from "react-router";
 import supabase from "../utils/supabase";
 import { decryptData } from "../utils/cripto";
 
-export default function Dashboard() {
+export default function System() {
+  const location = useLocation();
   const [isMobileDevice, setIsMobileDevice] = useState(false);
   const [counts, setCounts] = useState({
     users: 0,
@@ -117,61 +118,63 @@ export default function Dashboard() {
 
   return (
     <>
-      <Outlet />
       {!isMobileDevice && <Sidebar />}
-      <Box marginLeft="20vw">
-        <Heading mb={4}>Dashboard</Heading>
+      {location.pathname !== "/system" ? (<Box><Outlet /></Box>) :
 
-        <SimpleGrid columns={{ base: 1, md: 4 }} spacing={4} mb={6}>
-          <Card bg={colors.pms}><CardBody><Stat><StatLabel>Usuários</StatLabel><StatNumber>{counts.users}</StatNumber></Stat></CardBody></Card>
-          <Card bg={colors.scs}><CardBody><Stat><StatLabel>Treinamentos</StatLabel><StatNumber>{counts.treinamentos}</StatNumber></Stat></CardBody></Card>
-          <Card bg={colors.pms}><CardBody><Stat><StatLabel>Turmas Abertas</StatLabel><StatNumber>{counts.turmasAbertas}</StatNumber></Stat></CardBody></Card>
-          <Card bg={colors.scs}><CardBody><Stat><StatLabel>Total de Turmas</StatLabel><StatNumber>{counts.turmasTotais}</StatNumber></Stat></CardBody></Card>
-        </SimpleGrid>
+        <Box p={8} bg={colors.white} minH="100vh" marginLeft={"20vw"}>
+          <Heading mb={4}>Dashboard</Heading>
 
-        <Box mb={8}>
-          <Heading size="md" mb={2}>Usuários Recentes</Heading>
-          <Flex gap={4} overflowX="auto">
-            {recentUsers.map((user: any) => (
-              <Card key={user.id} p={4} minW="200px" bg={colors.white}>
-                <VStack>
-                  <Avatar name={decryptData(user.name)} />
-                  <Text fontWeight="bold">{decryptData(user.name)}</Text>
-                  <Text fontSize="sm">{user.email}</Text>
-                </VStack>
-              </Card>
-            ))}
-          </Flex>
-        </Box>
+          <SimpleGrid columns={{ base: 1, md: 4 }} mb={6}>
+            <Card bg={colors.pms}><CardBody><Stat><StatLabel>Usuários</StatLabel><StatNumber>{counts.users}</StatNumber></Stat></CardBody></Card>
+            <Card bg={colors.scs}><CardBody><Stat><StatLabel>Treinamentos</StatLabel><StatNumber>{counts.treinamentos}</StatNumber></Stat></CardBody></Card>
+            <Card bg={colors.pms}><CardBody><Stat><StatLabel>Turmas Abertas</StatLabel><StatNumber>{counts.turmasAbertas}</StatNumber></Stat></CardBody></Card>
+            <Card bg={colors.scs}><CardBody><Stat><StatLabel>Total de Turmas</StatLabel><StatNumber>{counts.turmasTotais}</StatNumber></Stat></CardBody></Card>
+          </SimpleGrid>
 
-        {treinamentosComTurmas.length > 0 && (
-          <Box mb={10}>
-            <Heading size="md" mb={4}>Treinamentos com Turmas Abertas</Heading>
-            <VStack spacing={4} align="stretch">
-              {treinamentosComTurmas.map((turma: any) => (
-                <Card key={turma.id} p={4}>
-                  <Heading size="sm">{turma.treinamentos?.treinamento} - {turma.turno} ({turma.data})</Heading>
-                  <Text mt={2} fontWeight="bold">Inscritos:</Text>
-                  <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={2} mt={2}>
-                    {turma.inscricoes.map((i: any) => (
-                      <Box key={i.id} borderWidth="1px" borderRadius="md" p={2}>
-                        {i.users?.name ? decryptData(i.users.name) : "Sem nome"} ({i.users?.email})
-                      </Box>
-                    ))}
-                  </SimpleGrid>
+          <Box mb={8}>
+            <Heading size="md" mb={2}>Usuários Recentes</Heading>
+            <Flex gap={4} overflowX="auto">
+              {recentUsers.map((user: any) => (
+                <Card key={user.id} p={4} minW="200px" bg={colors.white}>
+                  <VStack>
+                    <Avatar name={decryptData(user.name)} />
+                    <Text fontWeight="bold">{decryptData(user.name)}</Text>
+                    <Text fontSize="sm">{user.email}</Text>
+                  </VStack>
                 </Card>
               ))}
-            </VStack>
+            </Flex>
           </Box>
-        )}
 
-        <SimpleGrid columns={{ base: 1, md: 2 }} spacing={8}>
-          <ChartBox title="Presenças por Treinamento" data={presencasPorTreinamento} />
-          <ChartBox title="Presenças por Mês" data={presencasMensais} />
-          <ChartBox title="Turmas por Treinamento" data={turmasPorTreinamento} />
-          <ChartBox title="Turmas por Mês" data={turmasPorMes} />
-        </SimpleGrid>
-      </Box>
+          {treinamentosComTurmas.length > 0 && (
+            <Box mb={10}>
+              <Heading size="md" mb={4}>Treinamentos com Turmas Abertas</Heading>
+              <VStack align="stretch">
+                {treinamentosComTurmas.map((turma: any) => (
+                  <Card key={turma.id} p={4}>
+                    <Heading size="sm">{turma.treinamentos?.treinamento} - {turma.turno} ({turma.data})</Heading>
+                    <Text mt={2} fontWeight="bold">Inscritos:</Text>
+                    <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={2} mt={2}>
+                      {turma.inscricoes.map((i: any) => (
+                        <Box key={i.id} borderWidth="1px" borderRadius="md" p={2}>
+                          {i.users?.name ? decryptData(i.users.name) : "Sem nome"} ({i.users?.email})
+                        </Box>
+                      ))}
+                    </SimpleGrid>
+                  </Card>
+                ))}
+              </VStack>
+            </Box>
+          )}
+
+          <SimpleGrid columns={{ base: 1, md: 2 }} spacing={8}>
+            <ChartBox title="Presenças por Treinamento" data={presencasPorTreinamento} />
+            <ChartBox title="Presenças por Mês" data={presencasMensais} />
+            <ChartBox title="Turmas por Treinamento" data={turmasPorTreinamento} />
+            <ChartBox title="Turmas por Mês" data={turmasPorMes} />
+          </SimpleGrid>
+        </Box>
+      }
     </>
   );
 }
