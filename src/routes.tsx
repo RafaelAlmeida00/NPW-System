@@ -26,7 +26,15 @@ export const router = createBrowserRouter([
             children: [
               { path: "treinamentos", Component: TreinamentosAdmin },
               { path: "turmas", Component: TurmasAdmin },
+              {
+            path: "turmas",
+            Component: System,
+            children: [
+              { path: "presenca/:id", Component: TurmasAdmin },
             ],
+          },
+            ],
+            
           },
         ],
         

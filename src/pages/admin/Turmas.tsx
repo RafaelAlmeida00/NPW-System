@@ -35,6 +35,8 @@ import { useDisclosure } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { colors } from "../../utils/colors";
 import supabase from "../../utils/supabase";
+import QRCode from 'qrcode';
+import { MdQrCode } from "react-icons/md";
 
 interface Treinamento {
   id: number;
@@ -69,11 +71,27 @@ export default function TurmasAdmin() {
     turno: "Manhã",
     status: "Aberta",
   });
-
   const { isOpen, onOpen, onClose } = useDisclosure();
-
   const toast = useToast();
+  const [qrCodeUrl, setQrCodeUrl] = useState<string | null>(null);
 
+  const generateQr = async (id: any) => {
+    try {
+      const url = `https://npw-system.vercel.app/system/admin/turmas/presenca/${id}`;
+      const qr = await QRCode.toDataURL(url, {
+        errorCorrectionLevel: 'H',
+        margin: 2,
+        width: 300,
+      });
+      setQrCodeUrl(qr);
+    } catch (err) {
+      console.error('Erro ao gerar QR Code:', err);
+    }
+  };
+
+  const onQrCode = async (id: number) => {
+    await generateQr(id);
+  }
   // Fetch turmas + inscricoes + nome usuarios (via join)
   async function fetchTurmas() {
     setLoading(true);
@@ -126,7 +144,7 @@ export default function TurmasAdmin() {
       }));
 
       console.log(turmasComInscricoes);
-      
+
       setTurmas(turmasComInscricoes);
     } catch (error) {
       toast({
@@ -155,8 +173,8 @@ export default function TurmasAdmin() {
     setTreinamentos(data);
     console.log(data);
     console.log(treinamentos);
-    
-    
+
+
   }
 
   useEffect(() => {
@@ -320,6 +338,7 @@ export default function TurmasAdmin() {
                   <Th textAlign="center" color={colors.white}>
                     Ações
                   </Th>
+                  <Th color={colors.white}>Presença</Th>
                 </Tr>
               </Thead>
               <Tbody>
@@ -377,6 +396,14 @@ export default function TurmasAdmin() {
                           />
                         </HStack>
                       </Td>
+                      <Td><HStack justify="center">
+                        <IconButton
+                          aria-label="Presença"
+                          size="sm"
+                          icon={<MdQrCode />}
+                          onClick={() => onQrCode(turma.id)}
+                        />
+                      </HStack></Td>
                     </Tr>
                   );
                 })}
@@ -441,6 +468,25 @@ export default function TurmasAdmin() {
             </Button>
             <Button variant="ghost" onClick={onClose}>
               Cancelar
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+
+      {/* Modal para exibir QR Code */}
+      <Modal isOpen={!!qrCodeUrl} onClose={() => setQrCodeUrl("")}>
+        <ModalOverlay />
+        <ModalContent bg="white">
+          <ModalHeader color={colors.pm}>
+            Lista de Presença
+          </ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <img src={qrCodeUrl || ""} alt="QR Code" style={{ width: "100%", height: "auto" }} />
+          </ModalBody>
+          <ModalFooter>
+            <Button variant="ghost" onClick={onClose}>
+              Fechar
             </Button>
           </ModalFooter>
         </ModalContent>
