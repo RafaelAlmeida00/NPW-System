@@ -76,7 +76,6 @@ export default function Dashboard() {
 
             presencas.forEach((p: any) => {
                 const treino: any = p.turmas.treinamentos?.treinamento;
-                const treinoId = p.turmas.treinamentos?.id;
                 const mes = new Date(p.data).toLocaleDateString("pt-BR", { month: "short", year: "numeric" });
 
                 if (treino) {
