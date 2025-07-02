@@ -9,7 +9,7 @@ import {
     useToast,
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router';
+import { data, useNavigate, useParams } from 'react-router';
 import { useAuth } from '../../utils/authprovider';
 import supabase from '../../utils/supabase';
 import { colors } from '../../utils/colors';
@@ -112,6 +112,7 @@ export default function RegistroPresencaPage() {
                 {
                     turmaid: parseInt(turmaId),
                     userid: user.id,
+                    data: new Date().toISOString(),
                 },
             ]);
 
