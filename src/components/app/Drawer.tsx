@@ -44,9 +44,12 @@ const menuItems = [
 ];
 
 
+
 const Sidebar = () => {
-      const { user }: any = useAuth();
-    
+    const { user }: any = useAuth();
+
+    if (!user) return null;
+
     return (
         <Flex
             direction="column"
@@ -65,9 +68,17 @@ const Sidebar = () => {
 
                 {/* Menu */}
                 <VStack align="stretch" fontWeight="600" fontSize={22} px="4" mt="2" color={colors.white}>
-                    {menuItems.map((item, index) => (
-                        <NavItem key={index} {...item} />
-                    ))}
+                    {menuItems
+                        .filter((item) => {
+                            if (item.text === 'Admin') {
+                                return user.admin === 2 || user.admin === 3;
+                            }
+                            return true;
+                        })
+                        .map((item, index) => (
+                            <NavItem key={index} {...item} />
+                        ))}
+
                 </VStack>
             </Box>
 

@@ -77,7 +77,7 @@ export default function TurmasAdmin() {
 
   const generateQr = async (id: any) => {
     try {
-      const url = `https://npw-system.vercel.app/system/admin/turmas/presenca/${id}`;
+      const url = `https://npw-system.vercel.app/system/admin/presenca/${id}`;
       const qr = await QRCode.toDataURL(url, {
         errorCorrectionLevel: 'H',
         margin: 2,

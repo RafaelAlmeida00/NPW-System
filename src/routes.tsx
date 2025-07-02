@@ -8,7 +8,6 @@ import Turmas from "./pages/system/Turmas.tsx";
 import TreinamentosAdmin from "./pages/admin/Treinamentos.tsx";
 import TurmasAdmin from "./pages/admin/Turmas.tsx";
 import RegistroPresencaPage from "./pages/admin/Presenca.tsx";
-
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -27,23 +26,15 @@ export const router = createBrowserRouter([
             children: [
               { path: "treinamentos", Component: TreinamentosAdmin },
               { path: "turmas", Component: TurmasAdmin },
-              {
-            path: "turmas",
-            Component: System,
-            children: [
-              { path: "presenca/:id", Component: RegistroPresencaPage },
+              { path: "presenca/:id", Component: RegistroPresencaPage }, // 👈 SEPARADO AQUI
             ],
-          },
-            ],
-            
           },
         ],
-        
       },
     ],
-
   },
 ]);
+
 
 export default router;
 

@@ -9,7 +9,7 @@ import {
     useToast,
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
-import { useNavigate, useSearchParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { useAuth } from '../../utils/authprovider';
 import supabase from '../../utils/supabase';
 import { colors } from '../../utils/colors';
@@ -31,8 +31,7 @@ export default function RegistroPresencaPage() {
     const { user }: any = useAuth();
     const router = useNavigate();
     const toast = useToast();
-    const [searchParams] = useSearchParams();
-    const turmaId = searchParams.get('id');
+    const { id: turmaId } = useParams<{ id: string }>();
 
     const [turma, setTurma] = useState<Turma | null>(null);
     const [treinamento, setTreinamento] = useState<Treinamento | null>(null);
@@ -40,6 +39,8 @@ export default function RegistroPresencaPage() {
     const [submitting, setSubmitting] = useState(false);
 
     useEffect(() => {
+        console.log(`Turma ID: ${turmaId}`);
+
         if (!turmaId) return;
 
         const fetchDados = async () => {
