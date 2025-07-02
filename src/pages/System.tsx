@@ -10,18 +10,12 @@ export default function System() {
 
     useEffect(() => {
         function useIsMobileDevice() {
-            const [isMobileDevice, setIsMobileDevice] = useState(false);
 
-            useEffect(() => {
-                const userAgent = navigator.userAgent || navigator.vendor;
+            const userAgent = navigator.userAgent || navigator.vendor;
 
-                const isMobile =
-                    /android|iphone|ipad|ipod|opera mini|iemobile|mobile/i.test(userAgent);
-
-                setIsMobileDevice(isMobile);
-            }, []);
-
-            return isMobileDevice;
+            const isMobile =
+                /android|iphone|ipad|ipod|opera mini|iemobile|mobile/i.test(userAgent);
+            return isMobile;
         }
         setIsMobileDevice(useIsMobileDevice());
     }, [isMobileDevice]);
