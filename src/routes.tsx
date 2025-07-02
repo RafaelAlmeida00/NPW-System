@@ -7,6 +7,7 @@ import Treinamentos from "./pages/system/Treinamentos.tsx";
 import Turmas from "./pages/system/Turmas.tsx";
 import TreinamentosAdmin from "./pages/admin/Treinamentos.tsx";
 import TurmasAdmin from "./pages/admin/Turmas.tsx";
+import RegistroPresencaPage from "./pages/admin/Presenca.tsx";
 
 export const router = createBrowserRouter([
   {
@@ -30,7 +31,7 @@ export const router = createBrowserRouter([
             path: "turmas",
             Component: System,
             children: [
-              { path: "presenca/:id", Component: TurmasAdmin },
+              { path: "presenca/:id", Component: RegistroPresencaPage },
             ],
           },
             ],
