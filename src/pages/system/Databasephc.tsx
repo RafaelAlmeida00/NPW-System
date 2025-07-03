@@ -137,7 +137,7 @@ export default function DatabasePHC() {
                 .update(encryptedData)
                 .eq("id", current.id);
         } else {
-            result = await supabase.from("phc").insert([encryptedData]);
+            result = await supabase.from("phc").insert(encryptedData);
         }
 
         if (result.error) {
