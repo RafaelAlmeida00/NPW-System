@@ -15,9 +15,9 @@ import {
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { colors } from "../../utils/colors";
-import { MdAdminPanelSettings } from "react-icons/md";
+import { MdAdminPanelSettings, MdScore } from "react-icons/md";
 import { IoIosSchool } from "react-icons/io";
-import { SiGoogleclassroom } from "react-icons/si";
+import { SiGoogleclassroom, SiLinksys } from "react-icons/si";
 import { useAuth } from "../../utils/authprovider";
 import { decryptData } from "../../utils/cripto";
 
@@ -32,6 +32,11 @@ const menuItems = [
         ],
     },
     {
+        icon: SiLinksys,
+        text: "Acessos Rápidos",
+        route: "system/acessos",
+    },
+    {
         icon: IoIosSchool,
         text: "Treinamentos",
         route: "system/treinamentos",
@@ -40,6 +45,11 @@ const menuItems = [
         icon: SiGoogleclassroom,
         text: "Turmas",
         route: "system/turmas",
+    },
+    {
+        icon: MdScore,
+        text: "SSD",
+        route: "https://nissangroup.sharepoint.com/:x:/t/JAO_NML_07_040813_NPW_world_sample/Ec73KRb04vpEpxTtz1_6kIABNBmrW4y2T5byw5mPMw2YKg?e=hzyA17",
     }
 ];
 
@@ -111,13 +121,26 @@ const NavItem = ({ icon, text, route, subItems = [] }: any) => {
         if (hasSubItems) {
             setOpen(!open);
         } else if (route) {
-            navigate(`/${route}`);
+            if (text === "SSD") {
+                // Se o link for externo ou precisar abrir fora da SPA
+                window.open(route.startsWith("http") ? route : `https://${route}`, "_blank");
+            } else {
+                // Navegação interna
+                navigate(`/${route}`);
+            }
         }
     };
 
     const handleSubClick = (route: string) => {
-        navigate(`/${route}`);
+        if (text === "SSD") {
+            // Se o link for externo ou precisar abrir fora da SPA
+            window.open(route.startsWith("http") ? route : `https://${route}`, "_blank");
+        } else {
+            // Navegação interna
+            navigate(`/${route}`);
+        }
     };
+
 
     return (
         <Box>

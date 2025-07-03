@@ -122,7 +122,8 @@ export default function System() {
       {location.pathname !== "/system" && location.pathname !== "/system/" ? (<Box><Outlet /></Box>) :
 
         <Box p={8} bg={colors.white} minH="100vh" marginLeft={"20vw"}>
-          <Heading mb={4}>Dashboard</Heading>
+          <Heading size="lg" color={colors.pm} mb={6}>
+            Dashboard</Heading>
 
           <SimpleGrid columns={{ base: 1, md: 4 }} mb={6}>
             <Card bg={colors.pms}><CardBody><Stat><StatLabel>Usuários</StatLabel><StatNumber>{counts.users}</StatNumber></Stat></CardBody></Card>

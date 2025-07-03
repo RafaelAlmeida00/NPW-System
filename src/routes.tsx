@@ -8,6 +8,7 @@ import Turmas from "./pages/system/Turmas.tsx";
 import TreinamentosAdmin from "./pages/admin/Treinamentos.tsx";
 import TurmasAdmin from "./pages/admin/Turmas.tsx";
 import RegistroPresencaPage from "./pages/admin/Presenca.tsx";
+import AcessosRapidos from "./pages/system/Acessos.tsx";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -20,6 +21,7 @@ export const router = createBrowserRouter([
         children: [
           { path: "treinamentos", Component: Treinamentos },
           { path: "turmas", Component: Turmas },
+          { path: "acessos", Component: AcessosRapidos },
           {
             path: "admin",
             Component: System,
