@@ -15,14 +15,21 @@ import {
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { colors } from "../../utils/colors";
-import { MdAdminPanelSettings, MdScore } from "react-icons/md";
+import { MdAdminPanelSettings, MdOutlineDashboard } from "react-icons/md";
 import { IoIosSchool } from "react-icons/io";
 import { SiGoogleclassroom, SiLinksys } from "react-icons/si";
 import { useAuth } from "../../utils/authprovider";
 import { decryptData } from "../../utils/cripto";
+import { FaDatabase, FaFilePdf, FaList } from "react-icons/fa";
+import { AiOutlineAudit } from "react-icons/ai";
 
 // Menu dinâmico
 const menuItems = [
+    {
+        icon: MdOutlineDashboard,
+        text: "Dashboard",
+        route: "system/",
+    },
     {
         icon: MdAdminPanelSettings,
         text: "Admin",
@@ -39,18 +46,25 @@ const menuItems = [
     {
         icon: IoIosSchool,
         text: "Treinamentos",
-        route: "system/treinamentos",
-    },
+        subItems: [{
+            icon: FaFilePdf,
+            text: "Materiais de Treinamento",
+            route: "system/treinamentos",
+        },
+        {
+            icon: SiGoogleclassroom,
+            text: "Turmas",
+            route: "system/turmas",
+        }]
+    }, 
     {
-        icon: SiGoogleclassroom,
-        text: "Turmas",
-        route: "system/turmas",
+        icon: AiOutlineAudit,
+        text: "PHC",
+        subItems: [
+            { icon: FaDatabase, text: "Base de Dados", route: "system/phc/database" },
+            { icon: FaList, text: "Ichigen List", route: "system/phc/ichigenlist" },
+        ],
     },
-    {
-        icon: MdScore,
-        text: "SSD",
-        route: "https://nissangroup.sharepoint.com/:x:/t/JAO_NML_07_040813_NPW_world_sample/Ec73KRb04vpEpxTtz1_6kIABNBmrW4y2T5byw5mPMw2YKg?e=hzyA17",
-    }
 ];
 
 

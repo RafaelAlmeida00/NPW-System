@@ -3,7 +3,7 @@
 import { Box, Grid, Heading, Icon, Text, VStack } from "@chakra-ui/react";
 import { FaShareAlt, FaCalendarAlt, FaFileAlt } from "react-icons/fa";
 import { IoMdPeople } from "react-icons/io";
-import { MdCastForEducation } from "react-icons/md";
+import { MdCastForEducation, MdOutlineTravelExplore, MdScore } from "react-icons/md";
 import { colors } from "../../utils/colors";
 
 const accessLinks = [
@@ -60,6 +60,18 @@ const accessLinks = [
         name: "Organograma NPW",
         description: "Visão da Equipe NPW",
         route: "https://www.canva.com/design/DAGi627qgmc/BpiwxF4N-vBWH1v9ah8BMA/edit?utm_content=DAGi627qgmc&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton",
+    },
+    {
+        icon: MdScore,
+        name: "SSD",
+        description: "Faça sua avaliação de SSD",
+        route: "https://nissangroup.sharepoint.com/:x:/t/JAO_NML_07_040813_NPW_world_sample/Ec73KRb04vpEpxTtz1_6kIABNBmrW4y2T5byw5mPMw2YKg?e=hzyA17",
+    },
+    {
+        icon: MdOutlineTravelExplore,
+        name: "Visitas Executivas",
+        description: "Veja as Visitas Executivas",
+        route: "https://apps.powerapps.com/play/e/cdfec081-168b-eb10-bb1e-04a6cc98daee/a/9c79b0f8-b30d-44ff-bb1a-d61411e58215?tenantId=4617a0ae-1a92-4482-a833-7bad535b3292&hint=c006862e-f3fc-4b47-8096-55cbe34d46a8&sourcetime=1751541490063",
     }
 ];
 
