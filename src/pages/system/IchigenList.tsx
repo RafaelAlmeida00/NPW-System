@@ -65,9 +65,13 @@ export default function IchigenList() {
     }, []);
 
     const openForm = (item: any = null) => {
-        setCurrent(item);
+        const decryptDatavar: any = Object.fromEntries(
+            Object.entries(item).map(([key, value]) => [key, decryptData(String(value))])
+        );
+
+        setCurrent(decryptDatavar);
         setFormData(
-            item || {
+            decryptDatavar || {
                 shop: "",
                 area: "",
                 confirmacao: "",
