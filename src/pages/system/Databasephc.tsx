@@ -34,6 +34,7 @@ import supabase from "../../utils/supabase";
 import { decryptData, encryptData } from "../../utils/cripto";
 
 export default function DatabasePHC() {
+    const [idp, setIdp] = useState<any>();
     const [records, setRecords] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [current, setCurrent] = useState<any>(null);
@@ -97,10 +98,22 @@ export default function DatabasePHC() {
         fetchRecords();
     }, []);
 
-    const openForm = (item: any = null) => {
-        setCurrent(item);
+    const openForm = async (item: any = null) => {
+        const { data }: any = await supabase
+            .from("phc")
+            .select("*")
+            .match(item);
+
+        setIdp(data[0].id)
+
+
+        const decryptDatavar: any = Object.fromEntries(
+            Object.entries(item).map(([key, value]) => [key, decryptData(String(value))])
+        );
+
+        setCurrent(decryptDatavar);
         setFormData(
-            item || {
+            decryptDatavar || {
                 fy: "",
                 coordenador: "",
                 supervisor: "",
@@ -128,14 +141,17 @@ export default function DatabasePHC() {
     const handleSave = async () => {
         let result;
         const encryptedData = Object.fromEntries(
-            Object.entries(formData).map(([key, value]) => [key, encryptData(String(value))])
+            Object.entries(formData)
+                .filter(([key]) => key !== "id" && key !== "created_at") // Remove o id
+                .map(([key, value]) => [key, encryptData(String(value))])
         );
 
         if (current) {
+
             result = await supabase
                 .from("phc")
                 .update(encryptedData)
-                .eq("id", current.id);
+                .eq("id", idp);
         } else {
             result = await supabase.from("phc").insert(encryptedData);
         }
