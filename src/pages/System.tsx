@@ -91,7 +91,7 @@ export default function System() {
       });
 
       turmas.data.forEach((t: any) => {
-        const treino = t.treinamento_id || 0;
+        const treino = t.treinamento || 0;
         const mes = t.data
           ? new Date(t.data).toLocaleDateString("pt-BR", { month: "short", year: "numeric" })
           : "sem data";
@@ -106,7 +106,7 @@ export default function System() {
         Object.entries(treinoMesMap).map(([name, value]) => ({ name, value }))
       );
       setTurmasPorTreinamento(
-        Object.entries(turmaPorTreinoMap).map(([name, value]) => ({ name: `ID ${name}`, value }))
+        Object.entries(turmaPorTreinoMap).map(([name, value]) => ({ name, value }))
       );
       setTurmasPorMes(
         Object.entries(turmaPorMesMap).map(([name, value]) => ({ name, value }))
