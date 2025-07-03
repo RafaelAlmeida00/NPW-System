@@ -66,20 +66,25 @@ export default function IchigenList() {
     }, []);
 
     const openForm = async (item: any = null) => {
-        const { data }: any = await supabase
-            .from("phc")
-            .select("*")
-            .match(item);
+        if (item) {
+            const { data }: any = await supabase
+                .from("phc")
+                .select("*")
+                .match(item);
 
-        setIdp(data[0].id)
+            setIdp(data[0].id)
+            const decryptDatavar: any = Object.fromEntries(
+                Object.entries(item).map(([key, value]) => [key, decryptData(String(value))])
+            );
 
-        const decryptDatavar: any = Object.fromEntries(
-            Object.entries(item).map(([key, value]) => [key, decryptData(String(value))])
-        );
+            setCurrent(decryptDatavar);
+            setFormData(
+                decryptDatavar
+            );
+        }
 
-        setCurrent(decryptDatavar);
         setFormData(
-            decryptDatavar || {
+            {
                 shop: "",
                 area: "",
                 confirmacao: "",
