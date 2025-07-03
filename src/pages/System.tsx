@@ -91,7 +91,8 @@ export default function System() {
       });
 
       turmas.data.forEach((t: any) => {
-        const treino = t.treinamento || 0;
+        const treino = t.treinamento_id || 0;
+        
         const mes = t.data
           ? new Date(t.data).toLocaleDateString("pt-BR", { month: "short", year: "numeric" })
           : "sem data";
