@@ -71,6 +71,13 @@ export default function System() {
 
       if (turmasComInscricoes) setTreinamentosComTurmas(turmasComInscricoes);
 
+      const nomeDosTreinamentos: Record<number, string> = {};
+      turmasComInscricoes?.forEach((t: any) => {
+        if (t.treinamentos?.id) {
+          nomeDosTreinamentos[t.treinamentos.id] = t.treinamentos.treinamento;
+        }
+      });
+
       const { data: presencas }: any = await supabase
         .from("presenca")
         .select("*, turmas(*, treinamentos(*))");
@@ -91,8 +98,7 @@ export default function System() {
       });
 
       turmas.data.forEach((t: any) => {
-        const treino = t.treinamento_id || 0;
-        
+        const treino = nomeDosTreinamentos[t.treinamento_id] || 0;
         const mes = t.data
           ? new Date(t.data).toLocaleDateString("pt-BR", { month: "short", year: "numeric" })
           : "sem data";
