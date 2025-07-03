@@ -39,6 +39,14 @@ const menuItems = [
         ],
     },
     {
+        icon: AiOutlineAudit,
+        text: "PHC",
+        subItems: [
+            { icon: FaDatabase, text: "Base de Dados", route: "system/phc/database" },
+            { icon: FaList, text: "Ichigen List", route: "system/phc/ichigenlist" },
+        ],
+    },
+    {
         icon: SiLinksys,
         text: "Acessos Rápidos",
         route: "system/acessos",
@@ -57,14 +65,7 @@ const menuItems = [
             route: "system/turmas",
         }]
     }, 
-    {
-        icon: AiOutlineAudit,
-        text: "PHC",
-        subItems: [
-            { icon: FaDatabase, text: "Base de Dados", route: "system/phc/database" },
-            { icon: FaList, text: "Ichigen List", route: "system/phc/ichigenlist" },
-        ],
-    },
+    
 ];
 
 
@@ -95,7 +96,7 @@ const Sidebar = () => {
                 <VStack align="stretch" fontWeight="600" fontSize={22} px="4" mt="2" color={colors.white}>
                     {menuItems
                         .filter((item) => {
-                            if (item.text === 'Admin') {
+                            if (item.text === 'Admin' || item.text === 'PHC') {
                                 return user.admin_level === 2 || user.admin_level === 3;
                             }
                             return true;
