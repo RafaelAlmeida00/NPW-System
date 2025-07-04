@@ -23,6 +23,7 @@ import {
     Th,
     Td,
     TableContainer,
+    Select,
 } from "@chakra-ui/react";
 import { FiEdit, FiTrash, FiPlus } from "react-icons/fi";
 import { useDisclosure } from "@chakra-ui/react";
@@ -37,6 +38,11 @@ export default function IchigenList() {
     const [records, setRecords] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [current, setCurrent] = useState<any>(null);
+    const [options, setOptions] = useState({
+        shops: [] as string[],
+        areas: [] as string[],
+    });
+
     const [formData, setFormData] = useState({
         shop: "",
         area: "",
@@ -50,9 +56,26 @@ export default function IchigenList() {
 
     const { isOpen, onOpen, onClose } = useDisclosure();
 
+    const fetchRecords2 = async () => {
+        setLoading(true);
+        const { data, error } = await supabase.from("phc").select("*");
+
+        if (error) {
+            toaster.error("Erro ao carregar dados.");
+        } else {
+            setOptions({
+                shops: [...new Set(data.map((d: any) => decryptData(d.shop)).filter(Boolean))],
+                areas: [...new Set(data.map((d: any) => decryptData(d.area)).filter(Boolean))],
+            });
+        }
+        setLoading(false);
+    };
+
+
     const fetchRecords = async () => {
         setLoading(true);
         const { data, error } = await supabase.from("ichigenlist").select("*");
+
         if (error) {
             toaster.error("Erro ao carregar dados.");
         } else {
@@ -63,6 +86,7 @@ export default function IchigenList() {
 
     useEffect(() => {
         fetchRecords();
+        fetchRecords2();
     }, []);
 
     const openForm = async (item: any = null) => {
@@ -221,16 +245,38 @@ export default function IchigenList() {
                     <ModalCloseButton />
                     <ModalBody>
                         <VStack spacing={4}>
+                            {/* Shop */}
+                            <Select
+                                placeholder="Selecione um shop"
+                                value={formData.shop}
+                                onChange={(e) => setFormData({ ...formData, shop: e.target.value })}
+                            >
+                                {options.shops.map((s) => (
+                                    <option key={s} value={s}>{s}</option>
+                                ))}
+                            </Select>
                             <Input
-                                placeholder="Shop"
+                                placeholder="Ou digite outro shop"
                                 value={formData.shop}
                                 onChange={(e) => setFormData({ ...formData, shop: e.target.value })}
                             />
+
+                            {/* Área */}
+                            <Select
+                                placeholder="Selecione uma área"
+                                value={formData.area}
+                                onChange={(e) => setFormData({ ...formData, area: e.target.value })}
+                            >
+                                {options.areas.map((a) => (
+                                    <option key={a} value={a}>{a}</option>
+                                ))}
+                            </Select>
                             <Input
-                                placeholder="Área"
+                                placeholder="Ou digite outra área"
                                 value={formData.area}
                                 onChange={(e) => setFormData({ ...formData, area: e.target.value })}
                             />
+
                             <Input
                                 placeholder="Confirmação"
                                 type="date"
@@ -258,11 +304,14 @@ export default function IchigenList() {
                                 value={formData.abertura}
                                 onChange={(e) => setFormData({ ...formData, abertura: e.target.value })}
                             />
-                            <Input
-                                placeholder="Status"
+                            <Select
+                                placeholder="Selecione o status"
                                 value={formData.status}
                                 onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-                            />
+                            >
+                                <option value="Aberto">Aberto</option>
+                                <option value="Fechado">Fechado</option>
+                            </Select>
                         </VStack>
                     </ModalBody>
                     <ModalFooter>

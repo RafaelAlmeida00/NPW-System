@@ -22,6 +22,7 @@ import { useAuth } from "../../utils/authprovider";
 import { decryptData } from "../../utils/cripto";
 import { FaDatabase, FaFilePdf, FaList } from "react-icons/fa";
 import { AiOutlineAudit } from "react-icons/ai";
+import { RxDashboard } from "react-icons/rx";
 
 // Menu dinâmico
 const menuItems = [
@@ -64,7 +65,12 @@ const menuItems = [
             text: "Turmas",
             route: "system/turmas",
         }]
-    }, 
+    },
+    {
+        icon: RxDashboard,
+        text: "Dashboard PHC",
+        route: "system/phc/dashboard",
+    },
     
 ];
 

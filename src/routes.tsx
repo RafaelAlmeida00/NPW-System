@@ -9,8 +9,9 @@ import TreinamentosAdmin from "./pages/admin/Treinamentos.tsx";
 import TurmasAdmin from "./pages/admin/Turmas.tsx";
 import RegistroPresencaPage from "./pages/admin/Presenca.tsx";
 import AcessosRapidos from "./pages/system/Acessos.tsx";
-import DatabasePHC from "./pages/system/Databasephc.tsx";
-import IchigenList from "./pages/system/IchigenList.tsx";
+import DatabasePHC from "./pages/admin/Databasephc.tsx";
+import IchigenList from "./pages/admin/IchigenList.tsx";
+import DashboardPHC from "./pages/system/Dashboardphc.tsx";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -26,6 +27,7 @@ export const router = createBrowserRouter([
           { path: "acessos", Component: AcessosRapidos },
           { path: "phc/database", Component: DatabasePHC },
           { path: "phc/ichigenlist", Component: IchigenList },
+          { path: "phc/dashboard", Component: DashboardPHC },
           {
             path: "admin",
             Component: System,
