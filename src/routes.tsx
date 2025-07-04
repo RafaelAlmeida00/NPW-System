@@ -12,6 +12,7 @@ import AcessosRapidos from "./pages/system/Acessos.tsx";
 import DatabasePHC from "./pages/admin/Databasephc.tsx";
 import IchigenList from "./pages/admin/IchigenList.tsx";
 import DashboardPHC from "./pages/system/Dashboardphc.tsx";
+import DashboardSSD from "./pages/system/Dashboardssd.tsx";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -28,6 +29,7 @@ export const router = createBrowserRouter([
           { path: "phc/database", Component: DatabasePHC },
           { path: "phc/ichigenlist", Component: IchigenList },
           { path: "phc/dashboard", Component: DashboardPHC },
+          { path: "ssd/dashboard", Component: DashboardSSD },
           {
             path: "admin",
             Component: System,

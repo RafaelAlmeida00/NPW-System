@@ -1,7 +1,7 @@
 // AcessosRapidos.tsx
 "use client";
 import { Box, Grid, Heading, Icon, Text, VStack } from "@chakra-ui/react";
-import { FaShareAlt, FaCalendarAlt, FaFileAlt } from "react-icons/fa";
+import { FaShareAlt, FaCalendarAlt, FaFileAlt, FaCoffee } from "react-icons/fa";
 import { IoMdPeople } from "react-icons/io";
 import { MdCastForEducation, MdOutlineTravelExplore, MdScore } from "react-icons/md";
 import { colors } from "../../utils/colors";
@@ -72,6 +72,12 @@ const accessLinks = [
         name: "Visitas Executivas",
         description: "Veja as Visitas Executivas",
         route: "https://apps.powerapps.com/play/e/cdfec081-168b-eb10-bb1e-04a6cc98daee/a/9c79b0f8-b30d-44ff-bb1a-d61411e58215?tenantId=4617a0ae-1a92-4482-a833-7bad535b3292&hint=c006862e-f3fc-4b47-8096-55cbe34d46a8&sourcetime=1751541490063",
+    },
+    {
+        icon: FaCoffee,
+        name: "Café com NPW",
+        description: "Apresentações do Café com NPW",
+        route: "https://nissangroupnam.sharepoint.com/:f:/s/NA_NNA_004389/EnfRoAqoJvZEixS_Gi1FaIUByh0J29JferOBmPfxg69tgA?e=PzgEma",
     }
 ];
 

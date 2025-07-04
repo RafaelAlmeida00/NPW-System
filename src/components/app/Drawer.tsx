@@ -71,7 +71,11 @@ const menuItems = [
         text: "Dashboard PHC",
         route: "system/phc/dashboard",
     },
-    
+    {
+        icon: RxDashboard,
+        text: "Dashboard SSD",
+        route: "system/ssd/dashboard",
+    },
 ];
 
 
