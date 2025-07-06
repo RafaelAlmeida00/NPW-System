@@ -211,22 +211,29 @@ const DashboardPHC = () => {
             <Heading my={8}>Tabela de Itens Filtrados</Heading>
             <Table variant="simple">
                 <Thead>
-                    <Tr>
-                        <Th>Shop</Th>
-                        <Th>Área</Th>
-                        <Th>Status</Th>
-                        <Th>Abertura</Th>
-                        <Th>Responsável</Th>
+                    <Tr bg={colors.sc}>
+                        <Th color={colors.white}>Shop</Th>
+                        <Th color={colors.white}>Área</Th>
+                        <Th color={colors.white}>Confirmação</Th>
+                        <Th color={colors.white}>Observação</Th>
+                        <Th color={colors.white}>Ação</Th>
+                        <Th color={colors.white}>Responsável</Th>
+                        <Th color={colors.white}>Abertura</Th>
+                        <Th color={colors.white}>Status</Th>
                     </Tr>
                 </Thead>
-                <Tbody>
+                <Tbody >
                     {filteredIchigenData.map((item: any, idx: number) => (
                         <Tr key={idx}>
                             <Td>{item.shop}</Td>
                             <Td>{item.area}</Td>
-                            <Td>{item.status}</Td>
-                            <Td>{item.abertura}</Td>
+                            <Td>{item.confirmacao}</Td>
+                            <Td>{item.observacao}</Td>
+                            <Td>{item.acao}</Td>
                             <Td>{item.responsavel}</Td>
+                            <Td>{item.abertura}</Td>
+                            <Td><Card padding={3} textAlign={"center"} borderRadius={10} bg={item.status == "Aberto" ? "red.300" : "green.300"} fontWeight={"bold"}>{item.status}</Card></Td>
+
                         </Tr>
                     ))}
                 </Tbody>

@@ -30,78 +30,92 @@ export default function LoginPage() {
             name: encryptData(dataUser.name),
             matricula: encryptData(dataUser.matricula),
             email: dataUser.email,
-            senha: dataUser.password,
+            senha: encryptData(dataUser.password),
         }
 
         const { data, error } = await supabase.from('users').insert(encryptedPayload);
 
+        console.log(encryptedPayload);
         console.log(dataUser);
 
 
         if (error) {
-            setStatus("error")
-            setAlert(error.message)
-            setTimeout(() => {
-                setStatus("")
-                setAlert("")
-            }, 4000);
+            handleError(error.message);
+
             return;
         }
 
         console.log(data);
 
-        setStatus("success")
-        setAlert("Cadastrado com sucesso")
-        setTimeout(() => {
-            setStatus("")
-            setAlert("")
-        }, 4000);
+        handleSuccess("Usuário cadastrado com sucesso");
+
+        handlerLogin();
         await login();
     }
 
     async function login() {
 
-        console.log();
-
-        const { data, error } = await supabase.rpc("login_custom", {
-            email_input: dataUser.email,
-            password_input: dataUser.password,
-        });
-
-        if (data) {
-            // Armazene o `data` como "token" de sessão fake
-            setStatus("success")
-            setAlert("Logado com sucesso")
-            setTimeout(() => {
-                setStatus("")
-                setAlert("")
-            }, 4000);
-
-
-
-            const user = {
-                ...data[0],
-                name: decryptData(data[0].name),
-                matricula: decryptData(data[0].matricula),
-            };
-
-            localStorage.setItem("custom_user", JSON.stringify(user));
-            window.location.reload();
-            return;
-        }
+        const { data, error } = await supabase.from('users')
+            .select('*')
+            .eq('email', dataUser.email);
 
         if (error) {
-            setStatus("error")
-            setAlert(error.message)
-            setTimeout(() => {
-                setStatus("")
-                setAlert("")
-            }, 4000);
+            handleError(error.message);
             return;
         }
-        console.log(data);
 
+        if (!data || data.length === 0) {
+            handleError("Usuário não encontrado");
+            return;
+        }
+
+        const decryptedPassword = decryptData(data[0].senha);
+        console.log(data);
+        console.log(data[0].senha);
+        console.log(decryptedPassword);
+
+        if (decryptedPassword !== dataUser.password) {
+            handleError("Senha ou email incorretos");
+            return;
+        }
+
+        if (!data[0].active) {
+            handleError("Usuário inativo no sistema");
+            return;
+        }
+
+        // Usuário autenticado com sucesso
+        handleSuccess("Logado com sucesso");
+
+        const user = {
+            ...data[0],
+            name: decryptData(data[0].name),
+            matricula: decryptData(data[0].matricula),
+        };
+
+        localStorage.setItem("custom_user", encryptData(JSON.stringify(user)));
+        window.location.reload();
     }
+
+    // Funções auxiliares para reduzir repetição
+    function handleError(message: string) {
+        setStatus("error");
+        setAlert(message);
+        setTimeout(() => {
+            setStatus("");
+            setAlert("");
+        }, 4000);
+    }
+
+    function handleSuccess(message: string) {
+        setStatus("success");
+        setAlert(message);
+        setTimeout(() => {
+            setStatus("");
+            setAlert("");
+        }, 4000);
+    }
+
 
     const handlerLogin = () => {
         setLogin(!isLogin)
@@ -137,7 +151,12 @@ export default function LoginPage() {
                                 </Box> </>) : <></>}
                         <Box id="email" marginBottom={5}>
                             <Container>Email</Container>
-                            <Input type="email" color={colors.black} onChange={(e) => setData((prev: any) => ({ ...prev, email: e.target.value }))} />
+                            <Input type="email" color={colors.black} onChange={(e) => {
+                                function toLowerCase(str: string): string {
+                                    return str.toLowerCase();
+                                }
+                                setData((prev: any) => ({ ...prev, email: toLowerCase(e.target.value) }))
+                            }} />
                         </Box>
                         <Box id="password" marginBottom={5}>
                             <Container>Senha</Container>
@@ -173,7 +192,6 @@ export default function LoginPage() {
                             fontSize="sm"
                             marginTop={2}
                         >
-                            <Link color={colors.pm}>Esqueceu a senha?</Link>
                             {!isLogin ? <Text>
                                 Não tem uma conta?{" "}
                                 <Link color={colors.pm} onClick={handlerLogin}>Cadastre-se</Link>

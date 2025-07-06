@@ -262,6 +262,7 @@ async function enviarEmails() {
           .eq("id", current.id);
       } else {
         res = await supabase.from("turmas").insert([newRecord]);
+        enviarEmails();
       }
       if (res.error) throw res.error;
       toast({
@@ -270,7 +271,7 @@ async function enviarEmails() {
         duration: 2500,
         isClosable: true,
       });
-      enviarEmails();
+      
       fetchTurmas();
       onClose();
     } catch (error) {

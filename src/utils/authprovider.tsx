@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import supabase from "./supabase";
 import { useLocation, useNavigate } from "react-router";
+import { decryptData } from "./cripto";
 
 const AuthContext = createContext({});
 
@@ -10,11 +11,11 @@ export function AuthProvider({ children }: any) {
     const navigate = useNavigate();
 
     console.log(user);
-    
+
 
     // Função de verificação
     async function verifyUser() {
-        const userData = localStorage.getItem("custom_user");
+        const userData = decryptData(localStorage.getItem("custom_user") || "");
         if (!userData) {
             setUser(null);
             navigate("/");
@@ -23,13 +24,22 @@ export function AuthProvider({ children }: any) {
 
         try {
             const dataUser = JSON.parse(userData);
-            console.log(dataUser);
+            console.log(dataUser)
 
             const { data, error } = await supabase
                 .from("users") // ou o nome real da sua tabela
                 .select("*")
                 .eq("email", dataUser.email)
                 .single(); // retorna só 1 resultado
+                
+
+            if (!data.active) {
+                console.warn("Usuário inativo no sistema.");
+                localStorage.removeItem("custom_user");
+                setUser(null);
+                navigate("/");
+                return;
+            }
 
             if (error || !data) {
                 console.warn("Usuário não encontrado ou erro na verificação.");

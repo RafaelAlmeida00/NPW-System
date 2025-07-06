@@ -15,12 +15,12 @@ import {
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { colors } from "../../utils/colors";
-import { MdAdminPanelSettings, MdOutlineDashboard } from "react-icons/md";
+import { MdAdminPanelSettings, MdDeveloperBoard, MdOutlineDashboard } from "react-icons/md";
 import { IoIosSchool } from "react-icons/io";
 import { SiGoogleclassroom, SiLinksys } from "react-icons/si";
 import { useAuth } from "../../utils/authprovider";
 import { decryptData } from "../../utils/cripto";
-import { FaDatabase, FaFilePdf, FaList } from "react-icons/fa";
+import { FaDatabase, FaFilePdf, FaList, FaUser } from "react-icons/fa";
 import { AiOutlineAudit } from "react-icons/ai";
 import { RxDashboard } from "react-icons/rx";
 
@@ -37,6 +37,8 @@ const menuItems = [
         subItems: [
             { icon: IoIosSchool, text: "Treinamentos", route: "system/admin/treinamentos" },
             { icon: SiGoogleclassroom, text: "Turmas", route: "system/admin/turmas" },
+            { icon: FaUser, text: "Usuários", route: "system/admin/users" },
+            { icon: MdDeveloperBoard, text: "HK Digital GK", route: "system/admin/hk" },
         ],
     },
     {
@@ -107,13 +109,14 @@ const Sidebar = () => {
                     {menuItems
                         .filter((item) => {
                             if (item.text === 'Admin' || item.text === 'PHC') {
-                                return user.admin_level === 2 || user.admin_level === 3;
+                                return user.admin_level === 3; // Retorna true só se for nível 3
                             }
-                            return true;
+                            return true; // Outros itens sempre aparecem
                         })
                         .map((item, index) => (
                             <NavItem key={index} {...item} />
                         ))}
+
 
                 </VStack>
             </Box>

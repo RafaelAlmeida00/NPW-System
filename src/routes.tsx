@@ -13,6 +13,8 @@ import DatabasePHC from "./pages/admin/Databasephc.tsx";
 import IchigenList from "./pages/admin/IchigenList.tsx";
 import DashboardPHC from "./pages/system/Dashboardphc.tsx";
 import DashboardSSD from "./pages/system/Dashboardssd.tsx";
+import UsersAdmin from "./pages/admin/Users.tsx";
+import HKAdmin from "./pages/admin/HKAdmin.tsx";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -36,6 +38,8 @@ export const router = createBrowserRouter([
             children: [
               { path: "treinamentos", Component: TreinamentosAdmin },
               { path: "turmas", Component: TurmasAdmin },
+              { path: "users", Component: UsersAdmin },
+              { path: "hk", Component: HKAdmin },
               { path: "presenca/:id", Component: RegistroPresencaPage }, // 👈 SEPARADO AQUI
             ],
           },

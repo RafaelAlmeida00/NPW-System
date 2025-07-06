@@ -24,6 +24,7 @@ import {
     Td,
     TableContainer,
     Select,
+    Card,
 } from "@chakra-ui/react";
 import { FiEdit, FiTrash, FiPlus } from "react-icons/fi";
 import { useDisclosure } from "@chakra-ui/react";
@@ -209,7 +210,7 @@ export default function IchigenList() {
                                         <Td>{decryptData(rec.acao)}</Td>
                                         <Td>{decryptData(rec.responsavel)}</Td>
                                         <Td>{decryptData(rec.abertura)}</Td>
-                                        <Td>{decryptData(rec.status)}</Td>
+                                        <Td><Card padding={3} textAlign={"center"} borderRadius={10} bg={decryptData(rec.status) == "Aberto" ? "red.300" : "green.300"} fontWeight={"bold"}>{decryptData(rec.status)}</Card></Td>
                                         <Td textAlign="center">
                                             <HStack justify="center">
                                                 <IconButton
