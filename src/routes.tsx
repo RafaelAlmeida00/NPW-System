@@ -15,6 +15,8 @@ import DashboardPHC from "./pages/system/Dashboardphc.tsx";
 import DashboardSSD from "./pages/system/Dashboardssd.tsx";
 import UsersAdmin from "./pages/admin/Users.tsx";
 import HKAdmin from "./pages/admin/HKAdmin.tsx";
+import HKMonthAdmin from "./pages/admin/HKMonthAdmin.tsx";
+import HoshinKanriViewer from "./pages/system/HKDigital.tsx";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -32,6 +34,7 @@ export const router = createBrowserRouter([
           { path: "phc/ichigenlist", Component: IchigenList },
           { path: "phc/dashboard", Component: DashboardPHC },
           { path: "ssd/dashboard", Component: DashboardSSD },
+          { path: "hkdigital", Component: HoshinKanriViewer },
           {
             path: "admin",
             Component: System,
@@ -40,6 +43,7 @@ export const router = createBrowserRouter([
               { path: "turmas", Component: TurmasAdmin },
               { path: "users", Component: UsersAdmin },
               { path: "hk", Component: HKAdmin },
+              { path: "hkmonth", Component: HKMonthAdmin },
               { path: "presenca/:id", Component: RegistroPresencaPage }, // 👈 SEPARADO AQUI
             ],
           },

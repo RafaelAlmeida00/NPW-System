@@ -20,9 +20,10 @@ import { IoIosSchool } from "react-icons/io";
 import { SiGoogleclassroom, SiLinksys } from "react-icons/si";
 import { useAuth } from "../../utils/authprovider";
 import { decryptData } from "../../utils/cripto";
-import { FaDatabase, FaFilePdf, FaList, FaUser } from "react-icons/fa";
+import { FaCalendarCheck, FaDatabase, FaFilePdf, FaList, FaUser } from "react-icons/fa";
 import { AiOutlineAudit } from "react-icons/ai";
 import { RxDashboard } from "react-icons/rx";
+import { TbLayoutBoard } from "react-icons/tb";
 
 // Menu dinâmico
 const menuItems = [
@@ -38,7 +39,8 @@ const menuItems = [
             { icon: IoIosSchool, text: "Treinamentos", route: "system/admin/treinamentos" },
             { icon: SiGoogleclassroom, text: "Turmas", route: "system/admin/turmas" },
             { icon: FaUser, text: "Usuários", route: "system/admin/users" },
-            { icon: MdDeveloperBoard, text: "HK Digital GK", route: "system/admin/hk" },
+            { icon: MdDeveloperBoard, text: "Objetivos HK Digital", route: "system/admin/hk" },
+            { icon: FaCalendarCheck, text: "Mensal HK Digital", route: "system/admin/hkmonth" },
         ],
     },
     {
@@ -77,6 +79,11 @@ const menuItems = [
         icon: RxDashboard,
         text: "Dashboard SSD",
         route: "system/ssd/dashboard",
+    },
+    {
+        icon: TbLayoutBoard,
+        text: "Hoshin Kanri NPW GK",
+        route: "system/hkdigital",
     },
 ];
 

@@ -33,17 +33,18 @@ import { toaster } from "../../components/ui/toaster";
 import supabase from "../../utils/supabase";
 import { decryptData, encryptData } from "../../utils/cripto";
 
-export default function HKAdmin() {
+export default function HKMonthAdmin() {
     const [records, setRecords] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [current, setCurrent] = useState<any>(null);
     const [formData, setFormData] = useState<any>({});
+    const [objectives, setObjectives] = useState<any[]>([]);
 
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     const fetchRecords = async () => {
         setLoading(true);
-        const { data, error } = await supabase.from("hkdigital").select("*");
+        const { data, error } = await supabase.from("hkdigitalmonth").select("*");
         if (error) {
             toaster.error("Erro ao carregar dados.");
         } else {
@@ -52,8 +53,16 @@ export default function HKAdmin() {
         setLoading(false);
     };
 
+    const fetchObjectives = async () => {
+        const { data, error } = await supabase.from("hkdigital").select("id, descricao");
+        if (!error) {
+            setObjectives(data);
+        }
+    };
+
     useEffect(() => {
         fetchRecords();
+        fetchObjectives();
     }, []);
 
     const openForm = (item: any = null) => {
@@ -72,12 +81,18 @@ export default function HKAdmin() {
 
     const handleSave = async () => {
         const encrypted = Object.fromEntries(
-            Object.entries(formData).map(([key, value]) => [key, encryptData(String(value))])
+            Object.entries(formData).map(([key, value]) =>
+                key === "objective" ? [key, value] : [key, encryptData(String(value))]
+            )
         );
 
+
+        console.log(encrypted);
+        console.log(formData);
+
         const result = current
-            ? await supabase.from("hkdigital").update(encrypted).eq("id", current.id)
-            : await supabase.from("hkdigital").insert([encrypted]);
+            ? await supabase.from("hkdigitalmonth").update(encrypted).eq("id", current.id)
+            : await supabase.from("hkdigitalmonth").insert([encrypted]);
 
         if (result.error) {
             toaster.error("Erro ao salvar registro.");
@@ -91,7 +106,7 @@ export default function HKAdmin() {
     const handleDelete = async (id: number) => {
         if (!window.confirm("Deseja realmente excluir?")) return;
 
-        const { error } = await supabase.from("hkdigital").delete().eq("id", id);
+        const { error } = await supabase.from("hkdigitalmonth").delete().eq("id", id);
         if (error) {
             toaster.error("Erro ao excluir registro.");
         } else {
@@ -102,24 +117,14 @@ export default function HKAdmin() {
 
     const renderInput = (field: string) => {
         const selectFields: Record<string, string[]> = {
-            categoria: [
-                "People, Safety & Governance",
-                "Realize customer trusted vehicle quality through new technology application",
-                "Develop competitive cost structure by fixed cost optimization"
+            month: [
+                "January", "February", "March", "April", "May", "June",
+                "July", "August", "September", "October", "November", "December"
             ],
-            sqtc: ["Safety", "Quality", "Time", "Cost"],
-            aumentar_diminuir: ["Decrease", "Increase/Milestone"],
-            tendencia: ["Positive Trend", "Stable Trend", "Negative Trend"],
             status: [
                 "Achievement of Target (and or above) Target",
                 "Between Commitment & Target",
                 "Below Commitment"
-            ],
-            logic: [
-                "Sum of all months",
-                "Sum as last month",
-                "Avarege of all months",
-                "Manual Input"
             ]
         };
 
@@ -137,7 +142,21 @@ export default function HKAdmin() {
             );
         }
 
-        const numberFields = ["fy", "target", "commit"];
+        if (field === "objective") {
+            return (
+                <Select
+                    placeholder="OBJETIVO"
+                    value={formData[field] || ""}
+                    onChange={(e) => setFormData({ ...formData, [field]: e.target.value })}
+                >
+                    {objectives.map((obj: any) => (
+                        <option key={obj.id} value={obj.id}>{decryptData(obj.descricao)}</option>
+                    ))}
+                </Select>
+            );
+        }
+
+        const numberFields = ["target", "commitment", "result"];
 
         return (
             <Input
@@ -149,16 +168,12 @@ export default function HKAdmin() {
         );
     };
 
-    const fields = [
-        "fy", "categoria", "sqtc", "item", "descricao", "target", "commit",
-        "responsavel", "responsavel_report", "aumentar_diminuir", "tendencia", "status",
-        "logic", "comentarios",
-    ];
+    const fields = ["month", "target", "commitment", "result", "status", "objective"];
 
     return (
         <Box p={8} bg={colors.white} minH="100vh" marginLeft="20vw">
             <Heading size="lg" color={colors.pm} mb={6}>
-                Administração de Dados HK
+                Administração de Dados HK (Mês)
             </Heading>
 
             <Button
